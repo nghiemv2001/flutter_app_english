@@ -11,6 +11,7 @@ import 'package:english_directory_flutter/values/app_styles.dart';
 import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:english_directory_flutter/models/english_today.dart';
+import 'package:like_button/like_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../packages/quote/quote.dart';
@@ -179,13 +180,40 @@ class _HomePageState extends State<HomePage> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        child: Image.asset(App_Assets.heart,
-                                            color: words[index].isFavorite
-                                                ? Colors.red
-                                                : Colors.white),
-                                        alignment: Alignment.centerRight,
+                                      LikeButton(
+                                        onTap: (bool isLiked)async{
+                                          setState(() {
+                                            words[index].isFavorite = !words[index].isFavorite;
+                                          });
+                                          return words[index].isFavorite;
+                                        },
+                                        isLiked : words[index].isFavorite,
+                                        mainAxisAlignment: MainAxisAlignment.end,
+                                        size: 42,
+                                        circleColor:
+                                        CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                                        bubblesColor: BubblesColor(
+                                          dotPrimaryColor: Color(0xff33b5e5),
+                                          dotSecondaryColor: Color(0xff0099cc),
+                                        ),
+                                        likeBuilder: (bool isLiked) {
+                                          return ImageIcon(
+                                            AssetImage(
+                                              App_Assets.heart,
+                                            ),
+                                            color: isLiked ? Colors.red
+                                            : Colors.white,
+                                            size: 42,
+                                          );
+                                        },
                                       ),
+                                      // Container(
+                                      //   child: Image.asset(App_Assets.heart,
+                                      //       color: words[index].isFavorite
+                                      //           ? Colors.red
+                                      //           : Colors.white),
+                                      //   alignment: Alignment.centerRight,
+                                      // ),
                                       RichText(
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
